@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Object Detection Results</title>
+</head>
+<body>
+    <h1>Results</h1>
+    <h2>Original Video</h2>
+    <video id="original-video" width="320" height="240" controls autoplay></video>
+
+    <h2>Summarized Video (Object Detection)</h2>
+    <video id="processed-video" width="320" height="240" controls autoplay></video>
+
+    <br>
+    <h2>Results</h2>
+    <p>Total Frames: {{ total_frames }}</p>
+    <p>Unique Frames: {{ unique_frames }}</p>
+    <p>Common Frames: {{ common_frames }}</p>
+    <script>
+        var originalVideo = document.getElementById("original-video");
+        var processedVideo = document.getElementById("processed-video");
+        var originalFrames = {{ original_frames | tojson }};  // Assuming original_frames is passed from Flask app
+        var frames = {{ processed_frames | tojson }};
+
+        var originalFrameIndex = 0;
+        var frameIndex = 0;
+
+        function playOriginalVideo() {
+            if (originalFrameIndex < originalFrames.length) {
+                originalVideo.srcObject = new Blob([atob(originalFrames[originalFrameIndex])], { type: "video/webm" });
+                originalVideo.load();
+                originalVideo.play();
+                originalFrameIndex++;
+            }
+        }
+
+        function playFrames() {
+            if (frameIndex < frames.length) {
+                var img = document.createElement("img");
+                img.src = "data:image/jpeg;base64," + atob(frames[frameIndex]);
+                processedVideo.appendChild(img);
+                frameIndex++;
+                setTimeout(playFrames, 20); // Adjust delay as needed
+            }
+        }
+
+        // Call functions to play videos
+        playOriginalVideo();
+        playFrames();
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Object Detection App</title>
+</head>
+<body>
+    <h1>Upload Video and Detect Object</h1>
+    <form method="post" enctype="multipart/form-data" action="/process">
+        <label for="video">Video File:</label>
+        <input type="file" name="video" id="video" accept="video/*">
+        <br>
+        <label for="object_name">Object Name:</label>
+        <input type="text" name="object_name" id="object_name" required>
+        <br>
+        <button type="submit">Process Video</button>
+    </form>
+</body>
+</html>
